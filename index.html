@@ -1,99 +1,53 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, noarchive, noimageindex" />
-  <title>403 — Dostęp zablokowany</title>
-  <style>
-    :root { color-scheme: light dark; }
-    html, body { height: 100%; margin: 0; }
-    body {
-      display: grid;
-      place-items: center;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      line-height: 1.5;
-    }
-    .card {
-      max-width: 42rem;
-      padding: 2rem 2.25rem;
-      border-radius: 1.25rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      border: 1px solid rgba(0,0,0,.08);
-      text-align: center;
-    }
-    h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
-    p { opacity: .8; margin: 0.25rem 0; }
-    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .hint { font-size: .9rem; opacity: .75; margin-top: .75rem; }
-    .muted { opacity: .6; font-size: .9rem; }
-    a { text-decoration: none; }
-    .btn {
-      display: inline-block; margin-top: 1rem; padding: .6rem 1rem; border-radius: .75rem; border: 1px solid rgba(0,0,0,.15);
-    }
-  </style>
-  <!--
-    ⚠️ OGRANICZENIA "TYLKO HTML":
-    - Prawdziwe blokowanie po User-Agent / nagłówkach HTTP NIE jest możliwe w czystym HTML — do tego potrzeba logiki po stronie serwera (np. Nginx/Cloudflare/Workers).
-    - Ten plik robi to, co da się osiągnąć statycznie: pokazuje komunikat 403 w przeglądarce, a równocześnie zawiera SUROWY payload
-      ukryty w znaczniku <script type="application/x-raw" id="payload">, którego przeglądarka nie wykona.
-    - Narzędzia/skrypty (np. Lua loadstring() po pobraniu treści HTTP) mogą:
-        1) pobrać URL z parametrem ?raw=1 — wtedy treść zostanie wyrenderowana w body jako czysty tekst,
-        2) albo wyciąć fragment pomiędzy znacznikami  // === RAW BEGIN ===  i  // === RAW END ===  z kodu HTML.PRZYKŁADOWE UŻYCIE (schematycznie):
-  -- Lua (schemat):
-  -- local body = http.get("https://twoj.host/plik.html").body
-  -- local raw = body:match("// === RAW BEGIN ===(.-)// === RAW END ===")
-  -- local fn = load(raw)
-  -- fn()
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tekst jak w Pastebin RAW</title>
+    <style>
+        body {
+            background-color: #2e3436;
+            color: #d3d7cf;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
 
-Aby zmienić payload, edytuj treść wewnątrz <script type="application/x-raw" id="payload"> na dole pliku.
+        /* Dodatkowy styl dla lepszego wrażenia */
+        pre {
+            margin: 0;
+        }
 
--->
-
+    </style>
 </head>
 <body>
-  <div class="card" id="blocked">
-    <h1>403 — Dostęp zablokowany</h1>
-    <p>Ta strona nie jest przeznaczona do przeglądania w przeglądarce.</p>
-    <p class="muted">Jeśli jesteś skryptem: pobierz <code>?raw=1</code> aby uzyskać surową treść.</p>
-    <a class="btn" href="?raw=1">Pobierz surową treść</a>
-    <div class="hint">(Wersja demo w czystym HTML — bez backendu.)</div>
-  </div>  <noscript>
-    <div class="card">
-      <h1>Wymagany JavaScript</h1>
-      <p>Aby ukryć zawartość dla ludzi i pokazać ją tylko skryptom, ta strona korzysta z odrobiny JS.</p>
-      <p class="muted">Skrypty i tak mogą wyciąć payload z kodu źródłowego.</p>
-    </div>
-  </noscript>  <script>
-    (function(){
-      var qs = new URLSearchParams(location.search);
-      var wantsRaw = qs.get('raw') === '1' || qs.get('format') === 'raw';
-      if (wantsRaw) {
-        // Wyciągnij surowy payload z ukrytego <script>
-        var payloadTag = document.getElementById('payload');
-        var raw = payloadTag ? payloadTag.textContent.replace(/^\n+/, '') : '';
 
-        // Wyczyść dokument i pokaż samą treść jako tekst preformatowany
-        document.head.innerHTML = '<meta charset="utf-8">\n<title>raw</title>';
-        document.body.innerHTML = '';
-        var pre = document.createElement('pre');
-        pre.textContent = raw;
-        document.body.appendChild(pre);
-      } else {
-        // Tryb "blokada przeglądarki": payload pozostaje niewidoczny
-        var payloadTag = document.getElementById('payload');
-        if (payloadTag) payloadTag.parentNode.removeChild(payloadTag); // usuń z DOM dla ciekawskich
-      }
-    })();
-  </script>  <!--
-    ▼▼▼ SUROWY PAYLOAD — EDYTUJ PONIŻEJ ▼▼▼
-    (Nie będzie wykonywany przez przeglądarkę, ale będzie obecny w źródle.)
-  -->  <script type="application/x-raw" id="payload">
-// === RAW BEGIN ===
-print("Hello from RAW payload!\")
--- Podmień powyższą treść na swój kod.
--- Uwaga: nie używaj końcowych znaczników HTML w tym bloku.
-// === RAW END ===
-  </script></body>
+<pre>
+To jest przykładowy tekst, który wygląda jakby był wyświetlony w trybie "raw" z Pastebin.
+
+Jak widzisz, nie ma tu żadnego dodatkowego formatowania, tabel, czy przycisków.
+Tekst jest wyświetlany w prosty, jednolity sposób, co jest typowe dla plików "raw".
+
+Możesz tu umieścić dowolną treść, na przykład:
+- Kod źródłowy
+- Konfiguracje serwera
+- Notatki
+- Zwykły tekst
+
+Wszystkie białe znaki, wcięcia i podziały wierszy zostaną zachowane.
+
+Przykład kodu:
+
+#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Witaj, świecie!" &lt;&lt; std::endl;
+    return 0;
+}
+</pre>
+
+</body>
 </html>
