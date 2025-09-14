@@ -1,1 +1,51 @@
-print("Hello, RobloxD!")
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weryfikacja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+        }
+        h1 {
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="error-container">
+    <h1>Błąd</h1>
+    <p>Dostęp zabroniony.</p>
+</div>
+
+<script>
+    // Sprawdza, czy User-Agent zawiera słowo "Roblox".
+    const userAgent = navigator.userAgent;
+    const isRoblox = userAgent.includes("Roblox");
+
+    // Jeśli User-Agent to Roblox, zwraca kod Lua.
+    if (isRoblox) {
+        document.body.innerHTML = 'print("Roblox poprawnie pobiera skrypt z serwera!")';
+    } else {
+        // W przeciwnym razie, wyświetla komunikat o błędzie.
+        document.getElementById('error-container').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
